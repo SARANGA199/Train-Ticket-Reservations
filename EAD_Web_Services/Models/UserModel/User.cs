@@ -26,4 +26,11 @@ namespace EAD_Web_Services.Models.UserModel
         public bool IsActive { get; set; } = true;
     
     }
+
+    public class LoginRequest
+    {
+        public string Nic { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
 }

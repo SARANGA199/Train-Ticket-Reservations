@@ -1,6 +1,7 @@
 using EAD_Web_Services.DatabaseConfiguration;
 using EAD_Web_Services.Models.TrainModel;
 using EAD_Web_Services.Services.TrainService;
+using EAD_Web_Services.Services.UserService;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -18,6 +19,8 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
   new MongoClient(builder.Configuration.GetValue<string>("DatabaseSettings:ConnectionString")));
 
 builder.Services.AddScoped<ITrainService, TrainService>();
+
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 
