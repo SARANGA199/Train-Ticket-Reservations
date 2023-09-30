@@ -1,6 +1,6 @@
-﻿namespace EAD_Web_Services.Models.TrainModel
+﻿namespace EAD_Web_Services.DatabaseConfiguration
 {
-    public class TrainStoreDatabaseSettings : ITrainStoreDatabaseSettings
+    public class DatabaseSettings : IDatabaseSettings
     {
         public string TrainsCollectionName { get; set; } = string.Empty;
         public string ConnectionString { get; set; } = string.Empty;

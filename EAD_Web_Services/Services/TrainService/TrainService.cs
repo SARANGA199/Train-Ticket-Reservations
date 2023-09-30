@@ -1,4 +1,5 @@
-﻿using EAD_Web_Services.Models.TrainModel;
+﻿using EAD_Web_Services.DatabaseConfiguration;
+using EAD_Web_Services.Models.TrainModel;
 using MongoDB.Driver;
 
 namespace EAD_Web_Services.Services.TrainService
@@ -7,7 +8,7 @@ namespace EAD_Web_Services.Services.TrainService
     {
         private readonly IMongoCollection<Train> _trains;
 
-        public TrainService(ITrainStoreDatabaseSettings settings , IMongoClient mongoClient)
+        public TrainService(IDatabaseSettings settings , IMongoClient mongoClient)
         {
             var database = mongoClient.GetDatabase(settings.DatabaseName);
             _trains = database.GetCollection<Train>(settings.TrainsCollectionName);

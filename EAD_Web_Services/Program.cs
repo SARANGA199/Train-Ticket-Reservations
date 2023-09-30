@@ -1,3 +1,4 @@
+using EAD_Web_Services.DatabaseConfiguration;
 using EAD_Web_Services.Models.TrainModel;
 using EAD_Web_Services.Services.TrainService;
 using Microsoft.Extensions.Options;
@@ -7,14 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Train services
-builder.Services.Configure<TrainStoreDatabaseSettings>(
-       builder.Configuration.GetSection(nameof(TrainStoreDatabaseSettings)));
+builder.Services.Configure<DatabaseSettings>(
+       builder.Configuration.GetSection(nameof(DatabaseSettings)));
 
-builder.Services.AddSingleton<ITrainStoreDatabaseSettings>(sp =>
-       sp.GetRequiredService<IOptions<TrainStoreDatabaseSettings>>().Value);
+builder.Services.AddSingleton<IDatabaseSettings>(sp =>
+       sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
 builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
-  new MongoClient(builder.Configuration.GetValue<string>("TrainStoreDatabaseSettings:ConnectionString")));
+  new MongoClient(builder.Configuration.GetValue<string>("DatabaseSettings:ConnectionString")));
 
 builder.Services.AddScoped<ITrainService, TrainService>();
 
