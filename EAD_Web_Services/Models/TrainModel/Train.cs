@@ -26,6 +26,13 @@ namespace EAD_Web_Services.Models.TrainModel
         [BsonElement("stations")]
         public List<Station>? Stations { get; set; }
 
+        // Enable timestamp for train document
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
 
     }
 
