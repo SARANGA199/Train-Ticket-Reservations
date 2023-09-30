@@ -7,7 +7,7 @@ using MongoDB.Driver;
 var builder = WebApplication.CreateBuilder(args);
 
 
-// Train services
+//services configuration
 builder.Services.Configure<DatabaseSettings>(
        builder.Configuration.GetSection(nameof(DatabaseSettings)));
 

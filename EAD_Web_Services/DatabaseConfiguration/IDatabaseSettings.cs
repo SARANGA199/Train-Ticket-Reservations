@@ -2,8 +2,10 @@
 {
     public interface IDatabaseSettings
     {
-        string TrainsCollectionName { get; set; }
+        
         string ConnectionString { get; set; } 
         string DatabaseName { get; set; }
+        string TrainsCollectionName { get; set; }
+        string UsersCollectionName { get; set; }
     }
 }
