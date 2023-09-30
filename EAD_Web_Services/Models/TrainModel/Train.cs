@@ -35,6 +35,8 @@ namespace EAD_Web_Services.Models.TrainModel
         public string StationName { get; set; } = string.Empty;
 
         [BsonElement("time")]
-        public string Time { get; set; } = string.Empty;
+        [BsonRepresentation(BsonType.DateTime)]
+        public DateTime Time { get; set; } = DateTime.MinValue;
     }
+
 }

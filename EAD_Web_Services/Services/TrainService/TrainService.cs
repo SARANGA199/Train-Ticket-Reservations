@@ -15,6 +15,7 @@ namespace EAD_Web_Services.Services.TrainService
 
         public Train Create(Train train)
         {
+
             _trains.InsertOne(train);
             return train;
         }

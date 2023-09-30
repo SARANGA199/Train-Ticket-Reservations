@@ -9,7 +9,6 @@ namespace EAD_Web_Services.Services.TrainService
         Train Create(Train train);
         void Update(string id, Train train);
         void Remove(string id);
-        //update train status
         void UpdateStatus(string id);
     }
 }
