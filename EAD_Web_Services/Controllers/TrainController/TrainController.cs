@@ -79,5 +79,21 @@ namespace EAD_Web_Services.Controllers.TrainController
 
             return Ok($"Train with Id = {id} deleted");
         }
+
+        //update train status
+        [HttpPatch("updateStatus/{id}")]
+        public ActionResult UpdateStatus(string id)
+        {
+            var trainToUpdate = trainService.Get(id);
+
+            if (trainToUpdate == null)
+            {
+                return NotFound($"Train with id = {id} not found ");
+            }
+
+            trainService.UpdateStatus(id);
+
+            return Ok($"Train with Id = {id} updated successfully");
+        }
     }
 }

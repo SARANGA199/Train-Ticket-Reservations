@@ -38,5 +38,12 @@ namespace EAD_Web_Services.Services.TrainService
         {
             _trains.ReplaceOne(train => train.Id == id, train);
         }
+
+        public void UpdateStatus(string id)
+        {
+            var train = _trains.Find(train => train.Id == id).FirstOrDefault();
+            train.IsActive = !train.IsActive;
+            _trains.UpdateOne(train => train.Id == id, Builders<Train>.Update.Set("IsActive", train.IsActive));
+        }
     }
 }
