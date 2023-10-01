@@ -104,14 +104,18 @@ namespace EAD_Web_Services.Models.TrainModel
         [BsonRepresentation(BsonType.DateTime)]
         public DateTime ArrivalTime { get; set; } = DateTime.MinValue;
 
+        //trip time in hours
+        [BsonElement("trip_time_duration")]
+        public double TripTimeDuration { get; set; }
+
         [BsonElement("requested_seat_count")]
         public int RequestedSeatCount { get; set; }
 
         [BsonElement("available_seat_count")]
         public int AvailableSeatCount { get; set; }
 
-        [BsonElement("total_amount")]
-        public double TotalAmount { get; set; } = 2500;
+        [BsonElement("amount")]
+        public double Amount { get; set; } = 2500;
     }
 
 }

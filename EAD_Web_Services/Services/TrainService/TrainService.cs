@@ -47,17 +47,41 @@ namespace EAD_Web_Services.Services.TrainService
             //loop through trains and get reservations
             foreach (var train in trains)
             {   
+
                 //get available seats
                var availableSeats = GetAvailableSeats(train.Id, trainsRequestBody.Date, train.SeatCount);
 
                 //check if available seats are greater than or equal to requested seats
                 if (availableSeats >= trainsRequestBody.SeatCount)
                 {
+
+                 
                     // Find the departure station
                     var departureStation = train.Stations?.FirstOrDefault(station => station.StationName == trainsRequestBody.Departure);
 
                     // Find the arrival station
                     var arrivalStation = train.Stations?.FirstOrDefault(station => station.StationName == trainsRequestBody.Arrival);
+
+                    //calculate the price based on the train type ,number of stations and the time between the departure and arrival
+                    var trainTypeCharge = train.TrainTypesDetails.Price;
+                    //get the number of stations between the departure and arrival including the departure and arrival stations
+                    var numberOfStations = train.Stations?.Count(station => station.StationName == trainsRequestBody.Departure ||
+                                                                                               station.StationName == trainsRequestBody.Arrival);
+                    //console log the number of stations
+                    Console.WriteLine($"number of stations :: {numberOfStations}");
+
+                    //get the time between the departure and arrival
+                    var timeBetweenDepartureAndArrival = arrivalStation?.Time - departureStation?.Time;
+
+                    //console log the time between the departure and arrival
+                    Console.WriteLine($"time between departure and arrival :: {timeBetweenDepartureAndArrival?.Hours}");
+
+                    //calculate the price more real world scenario
+                    var price = trainTypeCharge *( (numberOfStations ?? 0) + (timeBetweenDepartureAndArrival?.TotalHours ?? 0));
+
+                    //console log the price
+                    Console.WriteLine($"price :: {price}");
+
 
                     //add train to filtered trains
                     filteredTrains.Add(new TrainsResponseBody
@@ -68,8 +92,10 @@ namespace EAD_Web_Services.Services.TrainService
                         Arrival = trainsRequestBody.Arrival,
                         DepartureTime = departureStation?.Time ?? DateTime.MinValue,
                         ArrivalTime = arrivalStation?.Time ?? DateTime.MinValue,
+                        TripTimeDuration = timeBetweenDepartureAndArrival?.TotalHours ?? 0,
                         AvailableSeatCount = availableSeats,
                         RequestedSeatCount = trainsRequestBody.SeatCount,
+                        Amount = price
                         
                     });
                     
