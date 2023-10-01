@@ -36,5 +36,12 @@ namespace EAD_Web_Services.Models.ReservationModel
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
+        
+    }
+
+    public class ReservationsRequestBody
+    {
+        public string TrainId { get; set; } = string.Empty;
+        public DateTime Date { get; set; } = DateTime.MinValue;
     }
 }

@@ -37,6 +37,21 @@ namespace EAD_Web_Services.Controllers.ReservationController
             return reservation;
         }
 
+        //get by train id and date
+        [HttpPost("reservations")]
+        public ActionResult<List<Reservation>> GetByTrainIdAndDate([FromBody]ReservationsRequestBody reservationsRequestBody)
+        {
+            var reservations = reservationService.GetByTrainIdAndDate(reservationsRequestBody.TrainId, reservationsRequestBody.Date);
+
+            if (reservations == null)
+            {
+                return NotFound($"Reservation with train id = {reservationsRequestBody.TrainId} and date = {reservationsRequestBody.Date} not found "); ;
+            }
+            return reservations;
+        }
+
+        
+
         // POST api/<ReservationController>
         [HttpPost]
         public ActionResult<Reservation> Post([FromBody] Reservation reservation)

@@ -6,6 +6,8 @@ namespace EAD_Web_Services.Services.ReservationService
     {
         List<Reservation> Get();
         Reservation Get(string id);
+        //get by train id and date
+        List<Reservation> GetByTrainIdAndDate(string trainId, DateTime date);
         Reservation Create(Reservation reservation);
         void Update(string id, Reservation reservation);
         void Remove(string id);

@@ -40,7 +40,7 @@ namespace EAD_Web_Services.Controllers.TrainController
         }
 
         [HttpPost("search")]
-        public ActionResult<List<Train>> GetByDepartureAndArrival([FromBody] TrainsRequestBody trainsRequestBody)
+        public ActionResult<List<TrainsResponseBody>> GetByDepartureAndArrival([FromBody] TrainsRequestBody trainsRequestBody)
         {
             var trains = trainService.GetByDepartureAndArrival(trainsRequestBody);
 
