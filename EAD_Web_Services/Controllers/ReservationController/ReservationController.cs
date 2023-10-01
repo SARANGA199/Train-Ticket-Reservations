@@ -88,9 +88,9 @@ namespace EAD_Web_Services.Controllers.ReservationController
                 return NotFound($"Reservation with id = {id} not found "); ;
             }
 
-            reservationService.Remove(id);
+           var result =   reservationService.Remove(id,reservation.Date);
 
-            return Ok($"Reservation with Id = {id} deleted");
+            return Ok(result);
         }
         
     }

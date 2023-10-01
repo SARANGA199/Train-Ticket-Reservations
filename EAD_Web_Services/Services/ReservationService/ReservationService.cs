@@ -51,9 +51,27 @@ namespace EAD_Web_Services.Services.ReservationService
             return filteredReservations;
         }
 
-        public void Remove(string id)
+        public string Remove(string id , DateTime reservedDate)
         {
-            _reservation.DeleteOne(reservation => reservation.Id == id);
+
+            //check if reserved date and current date date count is less than 5
+
+            //console log the reservedDate.Date.Subtract(DateTime.Now.Date).Days
+            Console.WriteLine($"reservedDate.Date.Subtract(DateTime.Now.Date).Days :: {reservedDate.Date.Subtract(DateTime.Now.Date).Days}");
+
+
+
+            if (reservedDate.Date.Subtract(DateTime.Now.Date).Days > 5)
+            {
+                _reservation.DeleteOne(reservation => reservation.Id == id);
+                return "Reservation cancelled successfully !";
+            }
+            else
+            {
+                //return error messge to controlle
+                return "Cannot cancel reservation within 5 days of departure !";
+            }
+
         }
 
         public void Update(string id, Reservation reservation)
