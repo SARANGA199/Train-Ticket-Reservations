@@ -46,4 +46,21 @@ namespace EAD_Web_Services.Models.TrainModel
         public DateTime Time { get; set; } = DateTime.MinValue;
     }
 
+    //train request body
+    public class TrainsRequestBody
+    {
+        [BsonElement("departure")]
+        public string Departure { get; set; } = string.Empty;
+
+        [BsonElement("arrival")]
+        public string Arrival { get; set; } = string.Empty;
+
+        [BsonElement("seat_count")]
+        public int SeatCount { get; set; }
+
+        [BsonElement("date")]
+        [BsonRepresentation(BsonType.DateTime)]
+        public DateTime Date { get; set; } = DateTime.MinValue;
+    }
+
 }

@@ -10,5 +10,8 @@ namespace EAD_Web_Services.Services.TrainService
         void Update(string id, Train train);
         void Remove(string id);
         void UpdateStatus(string id);
+        List<Train> GetByDepartureAndArrival(TrainsRequestBody trainsRequestBody);
+
+
     }
 }

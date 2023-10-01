@@ -39,6 +39,20 @@ namespace EAD_Web_Services.Controllers.TrainController
             return train;
         }
 
+        [HttpPost("search")]
+        public ActionResult<List<Train>> GetByDepartureAndArrival([FromBody] TrainsRequestBody trainsRequestBody)
+        {
+            var trains = trainService.GetByDepartureAndArrival(trainsRequestBody);
+
+            if (trains == null)
+            {
+                return NotFound($"Train with departure = {trainsRequestBody.Departure} and arrival = {trainsRequestBody.Arrival} not found "); ;
+            }
+
+            return trains;
+        }
+
+
         // POST api/<TrainController>
         [HttpPost]
         public ActionResult<Train> Post([FromBody] Train train)

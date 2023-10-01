@@ -7,5 +7,6 @@
         string DatabaseName { get; set; }
         string TrainsCollectionName { get; set; }
         string UsersCollectionName { get; set; }
+        string ReservationsCollectionName { get; set; }
     }
 }

@@ -95,8 +95,7 @@ namespace EAD_Web_Services.Services.UserService
 
         private static bool VerifyPassword(string plainTextPassword, string storeddPassword)
         {
-            Console.WriteLine($"plainTextPassword {plainTextPassword}");
-            Console.WriteLine($"storeddPassword {storeddPassword}");
+            
             string hashedPassword = EncryptPassword(plainTextPassword);
             return hashedPassword.Equals(storeddPassword);
         }
