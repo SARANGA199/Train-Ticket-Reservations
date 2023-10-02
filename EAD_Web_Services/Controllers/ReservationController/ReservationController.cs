@@ -24,7 +24,7 @@ namespace EAD_Web_Services.Controllers.ReservationController
             return reservationService.Get();
         }
 
-        // GET api/<ReservationController>/5
+        // GET api/<Res ervationController>/5
         [HttpGet("{id}")]
         public ActionResult<Reservation> Get(string id)
         {

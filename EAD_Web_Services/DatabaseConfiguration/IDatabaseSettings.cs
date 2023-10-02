@@ -8,5 +8,8 @@
         string TrainsCollectionName { get; set; }
         string UsersCollectionName { get; set; }
         string ReservationsCollectionName { get; set; }
+        string RequestAgentCollectionName { get; set; }
+
+
     }
 }

@@ -1,5 +1,6 @@
 using EAD_Web_Services.DatabaseConfiguration;
 using EAD_Web_Services.Models.TrainModel;
+using EAD_Web_Services.Services.RequestAgentService;
 using EAD_Web_Services.Services.ReservationService;
 using EAD_Web_Services.Services.TrainService;
 using EAD_Web_Services.Services.UserService;
@@ -25,7 +26,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IReservationService, ReservationService>();
 
-
+builder.Services.AddScoped<IRequestAgentService, RequestAgentService>();
 
 
 builder.Services.AddControllers();

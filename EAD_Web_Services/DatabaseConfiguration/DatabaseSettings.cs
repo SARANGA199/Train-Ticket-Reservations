@@ -8,5 +8,6 @@
         public string TrainsCollectionName { get; set; } = string.Empty;
         public string UsersCollectionName { get; set; } = string.Empty;
         public string ReservationsCollectionName { get; set; } = string.Empty;
+        public string RequestAgentCollectionName { get; set; } = string.Empty;
     }
 }
