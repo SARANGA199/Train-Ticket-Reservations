@@ -19,12 +19,26 @@ namespace EAD_Web_Services.Models.UserModel
         [BsonElement("password")]
         public string Password { get; set; } = string.Empty;
 
-        [BsonElement("isTraveler")]
-        public bool IsTraveler { get; set; } = true;
+        [BsonElement("user_role")]
+        public UserRole UserRole { get; set; } =  UserRole.Traveler;
 
-        [BsonElement("isActive")]
+        [BsonElement("is_active")]
         public bool IsActive { get; set; } = true;
-    
+
+        // Enable timestamp for user document
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    }
+
+    public enum UserRole
+    {
+        BackOfficeUser = 1,
+        TravelAgent    = 2,
+        Traveler       = 3
     }
 
     public class LoginRequest

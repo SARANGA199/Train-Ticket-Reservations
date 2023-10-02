@@ -46,7 +46,7 @@ namespace EAD_Web_Services.Services.TrainService
         {
             List<TrainsResponseBody> filteredTrains = new();
 
-            // Call function to filter trains by departure and arrival. 
+            
             //TODO: check if train is active
             var trains = FilterTrainsByDepartureAndArrival(trainsRequestBody.Departure, trainsRequestBody.Arrival);
 

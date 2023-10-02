@@ -8,7 +8,7 @@ namespace EAD_Web_Services.Services.UserService
 {
     public class UserService : IUserService
     {
-        private IMongoCollection<User> _users;
+        private readonly IMongoCollection<User> _users;
 
         public UserService( IDatabaseSettings settings , IMongoClient mongoClient) 
         {
@@ -73,10 +73,6 @@ namespace EAD_Web_Services.Services.UserService
         {
             var user = _users.Find(user => user.Nic == nic).FirstOrDefault();
 
-
-
-            Console.WriteLine(user.Password);
-
             if (user == null)
                 return "User not found";
             if (!user.IsActive)
@@ -105,7 +101,7 @@ namespace EAD_Web_Services.Services.UserService
             using SHA256 sha256 = SHA256.Create();
             byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-            // Convert the byte array to a hexadecimal string
+            
             StringBuilder stringBuilder = new();
             for (int i = 0; i < hashBytes.Length; i++)
             {

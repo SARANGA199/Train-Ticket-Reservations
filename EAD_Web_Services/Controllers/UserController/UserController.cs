@@ -51,7 +51,7 @@ namespace EAD_Web_Services.Controllers.UserController
 
             if (existingUser == null)
             {
-                return NotFound($"User with nic = {nic} not found");
+                return NotFound($"User  not found");
             }
 
             userService.Update(nic, user);
@@ -84,6 +84,10 @@ namespace EAD_Web_Services.Controllers.UserController
         [HttpPost("login")]
         public ActionResult<User> Login([FromBody] LoginRequest loginRequest)
         {
+            const string verifyPasswordHash = "true";
+            const string verifyPasswordDeactivated = "deactivated";
+            const string passwordEncrypted = "Encrypted";
+
             var user = userService.Get(loginRequest.Nic);
 
             if (user == null)
@@ -93,11 +97,12 @@ namespace EAD_Web_Services.Controllers.UserController
 
             var isPasswordVerified = userService.Login(loginRequest.Nic, loginRequest.Password);
 
-            if (isPasswordVerified == "true")
+            if (isPasswordVerified == verifyPasswordHash)
             {
+                user.Password = passwordEncrypted;
                 return user;
             }
-            else if (isPasswordVerified == "deactivated")
+            else if (isPasswordVerified == verifyPasswordDeactivated)
             {
                 return BadRequest("deactivated");
             }
