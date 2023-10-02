@@ -9,7 +9,7 @@ namespace EAD_Web_Services.Services.ReservationService
         //get by train id and date
         List<Reservation> GetByTrainIdAndDate(string trainId, DateTime date);
         Reservation Create(Reservation reservation);
-        void Update(string id, Reservation reservation);
+        string Update(string id, Reservation reservation , ReservationUpdateBody reservationUpdateBody);
         string Remove(string id,DateTime date);
 
     }

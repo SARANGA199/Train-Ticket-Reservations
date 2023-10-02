@@ -37,21 +37,6 @@ namespace EAD_Web_Services.Controllers.ReservationController
             return reservation;
         }
 
-        //get by train id and date
-        [HttpPost("reservations")]
-        public ActionResult<List<Reservation>> GetByTrainIdAndDate([FromBody]ReservationsRequestBody reservationsRequestBody)
-        {
-            var reservations = reservationService.GetByTrainIdAndDate(reservationsRequestBody.TrainId, reservationsRequestBody.Date);
-
-            if (reservations == null)
-            {
-                return NotFound($"Reservation with train id = {reservationsRequestBody.TrainId} and date = {reservationsRequestBody.Date} not found "); ;
-            }
-            return reservations;
-        }
-
-        
-
         // POST api/<ReservationController>
         [HttpPost]
         public ActionResult<Reservation> Post([FromBody] Reservation reservation)
@@ -63,7 +48,7 @@ namespace EAD_Web_Services.Controllers.ReservationController
 
         // PUT api/<ReservationController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] Reservation reservation)
+        public ActionResult Put(string id, [FromBody] ReservationUpdateBody reservationUpdateBody)
         {
             var reservationToUpdate = reservationService.Get(id);
 
@@ -72,9 +57,9 @@ namespace EAD_Web_Services.Controllers.ReservationController
                 return NotFound($"Reservation with id = {id} not found "); ;
             }
 
-            reservationService.Update(id, reservation);
+            var result = reservationService.Update(id, reservationToUpdate , reservationUpdateBody);
 
-            return NoContent(); 
+            return Ok(result); 
         }
 
         // DELETE api/<ReservationController>/5

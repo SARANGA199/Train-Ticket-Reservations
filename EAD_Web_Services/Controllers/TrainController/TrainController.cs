@@ -30,7 +30,7 @@ namespace EAD_Web_Services.Controllers.TrainController
         public ActionResult<Train> Get(string id)
         {
             var train = trainService.Get(id);
-            
+
             if (train == null)
             {
                 return NotFound($"Train with id = {id} not found "); ;
@@ -38,6 +38,8 @@ namespace EAD_Web_Services.Controllers.TrainController
 
             return train;
         }
+
+
 
         [HttpPost("search")]
         public ActionResult<List<TrainsResponseBody>> GetByDepartureAndArrival([FromBody] TrainsRequestBody trainsRequestBody)
@@ -95,8 +97,8 @@ namespace EAD_Web_Services.Controllers.TrainController
         }
 
         //update train status
-        [HttpPatch("updateStatus/{id}")]
-        public ActionResult UpdateStatus(string id)
+        [HttpPatch("updateActiveStatus/{id}")]
+        public ActionResult UpdateTrainsActiveStatus(string id)
         {
             var trainToUpdate = trainService.Get(id);
 
@@ -105,9 +107,9 @@ namespace EAD_Web_Services.Controllers.TrainController
                 return NotFound($"Train with id = {id} not found ");
             }
 
-            trainService.UpdateStatus(id);
+            var result =  trainService.UpdateTrainsActiveStatus(id);
 
-            return Ok($"Train with Id = {id} updated successfully");
+            return Ok(result);
         }
     }
 }

@@ -9,9 +9,11 @@ namespace EAD_Web_Services.Services.TrainService
         Train Create(Train train);
         void Update(string id, Train train);
         void Remove(string id);
-        void UpdateStatus(string id);
+        string UpdateTrainsActiveStatus(string id);
         List<TrainsResponseBody> GetByDepartureAndArrival(TrainsRequestBody trainsRequestBody);
-
+       int GetAvailableSeats(string trainId, DateTime date, int seatCount);
+       double CalculatePrice(Train train, string departure, string arrival, Station departureStation, Station arrivalStation);
+       
 
     }
 }

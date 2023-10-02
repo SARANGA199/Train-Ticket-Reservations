@@ -1,4 +1,6 @@
-﻿using EAD_Web_Services.DatabaseConfiguration;
+﻿using EAD_Web_Services.CommonService;
+using EAD_Web_Services.DatabaseConfiguration;
+using EAD_Web_Services.Models.ReservationModel;
 using EAD_Web_Services.Models.TrainModel;
 using EAD_Web_Services.Services.ReservationService;
 using MongoDB.Driver;
@@ -9,14 +11,15 @@ namespace EAD_Web_Services.Services.TrainService
     public class TrainService : ITrainService
     {
         private readonly IMongoCollection<Train> _trains;
-        private readonly IReservationService reservationService;
+        private readonly IMongoCollection<Reservation> _reservation;
+       
 
-        public TrainService(IDatabaseSettings settings , IMongoClient mongoClient , IReservationService reservationService)
+        public TrainService(IDatabaseSettings settings , IMongoClient mongoClient )
         {
             var database = mongoClient.GetDatabase(settings.DatabaseName);
             _trains = database.GetCollection<Train>(settings.TrainsCollectionName);
+            _reservation = database.GetCollection<Reservation>(settings.ReservationsCollectionName);
 
-            this.reservationService = reservationService;
         }
 
         public Train Create(Train train)
@@ -31,10 +34,13 @@ namespace EAD_Web_Services.Services.TrainService
             return _trains.Find(train => true).ToList();
         }
 
+
         public Train Get(string id)
         {
             return _trains.Find(train => train.Id == id).FirstOrDefault();
         }
+
+
 
         public List<TrainsResponseBody> GetByDepartureAndArrival(TrainsRequestBody trainsRequestBody)
         {
@@ -89,9 +95,9 @@ namespace EAD_Web_Services.Services.TrainService
         }
 
         //calculate price
-        public double CalculatePrice(Train train, string departure, string arrival , Station departureStation , Station arrivalStation)
+        public double CalculatePrice(Train train, string departure, string arrival, Station departureStation, Station arrivalStation)
         {
-           
+
             var trainTypeCharge = train.TrainTypesDetails.Price;
             var numberOfStations = train.Stations?.Count(station => station.StationName == departure || station.StationName == arrival);
 
@@ -103,11 +109,11 @@ namespace EAD_Web_Services.Services.TrainService
         }
 
         //get available seats
-        public int GetAvailableSeats(string trainId, DateTime date , int seatCount)
+        public int GetAvailableSeats(string trainId, DateTime date, int seatCount)
         {
-         
+
             //get reservations
-            var currentReservations = reservationService.GetByTrainIdAndDate(trainId, date);
+            var currentReservations = GetTrainByIdDate(trainId, date);
 
             //get total number of passengers
             var totalReservedSeats = currentReservations.Sum(reservation => reservation.PassengersCount);
@@ -117,6 +123,26 @@ namespace EAD_Web_Services.Services.TrainService
 
             return availableSeats;
         }
+
+        public List<Reservation> GetTrainByIdDate(string trainId, DateTime date)
+        {
+
+            //console log the train id and date
+            Console.WriteLine($"train id :: {trainId}");
+            Console.WriteLine($"date :: {date}");
+
+            // Create a combined filter expression.
+            Expression<Func<Reservation, bool>> combinedFilter = reservation =>
+                reservation.TrainId == trainId &&
+                //check only the date part of the date time
+                reservation.Date.Date == date.Date;
+
+            // Apply the combined filter using the Where method.
+            var filteredReservations = _reservation.AsQueryable().Where(combinedFilter).ToList();
+            Console.WriteLine($"filtered reservations :: {filteredReservations.Count}");
+            return filteredReservations;
+        }
+
 
         private List<Train> FilterTrainsByDepartureAndArrival(string departure, string arrival)
         {
@@ -145,12 +171,40 @@ namespace EAD_Web_Services.Services.TrainService
             _trains.ReplaceOne(train => train.Id == id, train);
         }
 
-        public void UpdateStatus(string id)
+        public string UpdateTrainsActiveStatus(string id)
         {
             var train = _trains.Find(train => train.Id == id).FirstOrDefault();
-            train.IsActive = !train.IsActive;
-            _trains.UpdateOne(train => train.Id == id, Builders<Train>.Update.Set("IsActive", train.IsActive));
+
+            //get reservations from today onwards with this train id
+            var reservations = CheckFutureReservation(id, DateTime.Now);
+
+            //if there are reservations then prevent updating the status
+            if (reservations.Count <= 0)
+            {
+                train.IsActive = !train.IsActive;
+                _trains.UpdateOne(train => train.Id == id, Builders<Train>.Update.Set("IsActive", train.IsActive));
+
+                //return message with status
+                return $"Train status updated to {train.IsActive}";
+            }else
+            {
+                //return message with status
+                return $"This Train has reservations from today onwards, status cannot be updated";
+            }
         }
+
+        public List<Reservation> CheckFutureReservation(string trainId, DateTime date)
+        {
+            // Create a combined filter expression.
+            Expression<Func<Reservation, bool>> combinedFilter = reservation =>
+                reservation.TrainId == trainId &&
+                //check only the date part of the date time
+                reservation.Date.Date >= date.Date;
+
+            // Apply the combined filter using the Where method.
+            var filteredReservations = _reservation.AsQueryable().Where(combinedFilter).ToList();
+            return filteredReservations;
+        }   
 
 
     }
