@@ -7,7 +7,7 @@ namespace EAD_Web_Services.Models.UserModel
     public class User
     {
         [BsonId]
-        [BsonElement("nic")]
+        [BsonElement("_id")]
         public string Nic { get; set; } = string.Empty;
 
         [BsonElement("name")]
