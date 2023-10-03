@@ -1,4 +1,5 @@
 ﻿using EAD_Web_Services.DatabaseConfiguration;
+using EAD_Web_Services.Models.TrainModel;
 using EAD_Web_Services.Models.UserModel;
 using MongoDB.Driver;
 using System.Security.Cryptography;
@@ -17,17 +18,19 @@ namespace EAD_Web_Services.Services.UserService
 
         }
 
-        public string Create(User user)
+        public string Create(User userReq)
         {
-            var existingUser = _users.Find(user => user.Nic == user.Nic).FirstOrDefault();
+            var existingUser = _users.Find(user => user.Nic == userReq.Nic).FirstOrDefault();
+            Console.WriteLine($"train id :: {userReq.Nic}");
+            Console.WriteLine($"train id :: {existingUser}");
             if (existingUser != null)
             {
                 return "User NIC already exists.";
             }
 
-            user.Password = EncryptPassword(user.Password);
+            userReq.Password = EncryptPassword(userReq.Password);
 
-            _users.InsertOne(user);
+            _users.InsertOne(userReq);
             return "User registered successfully.";
         }
 
