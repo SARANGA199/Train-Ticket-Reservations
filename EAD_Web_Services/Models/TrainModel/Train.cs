@@ -1,9 +1,18 @@
-﻿using MongoDB.Bson;
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20260910
+//   Name  :  Vishwa J.W.P
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 
 namespace EAD_Web_Services.Models.TrainModel
 {
+    /// <summary>
+    /// Represent a Train Document in MongoDB
+    /// </summary>
     public class Train
     {
         [BsonId]
@@ -35,7 +44,9 @@ namespace EAD_Web_Services.Models.TrainModel
 
 
     }
-
+    /// <summary>
+    /// Represent a Train Station Document in MongoDB
+    /// </summary>
     public class Station
     {
         [BsonElement("station_name")]
@@ -46,7 +57,9 @@ namespace EAD_Web_Services.Models.TrainModel
         public DateTime Time { get; set; } = DateTime.MinValue;
     }
 
-    //train types with prices object
+    /// <summary>
+    /// Represents train types with prices
+    /// </summary>
     public class TrainTypesDetails
     {
         [BsonElement("train_type")]
@@ -56,7 +69,9 @@ namespace EAD_Web_Services.Models.TrainModel
         public double Price { get; set; }
     }
 
-    //train types enum
+    /// <summary>
+    /// train types enum
+    /// </summary>
     public enum TrainType
     {
         Express = 1,
@@ -64,7 +79,9 @@ namespace EAD_Web_Services.Models.TrainModel
         InterCity = 3
     }
 
-    //train request body
+    /// <summary>
+    /// Represents the request body for searching trains.
+    /// </summary>
     public class TrainsRequestBody
     {
         [BsonElement("departure")]
@@ -81,7 +98,9 @@ namespace EAD_Web_Services.Models.TrainModel
         public DateTime Date { get; set; } = DateTime.MinValue;
     }
 
-    //train response body
+    /// <summary>
+    /// Represents the response body for available trains
+    /// </summary>
     public class TrainsResponseBody
     {
         [BsonElement("train_id")]
