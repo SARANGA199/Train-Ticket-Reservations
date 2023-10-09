@@ -1,7 +1,17 @@
-﻿using EAD_Web_Services.Models.ReservationModel;
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20260460
+//   Name  :  Piumika Saranga H.A.
+
+using EAD_Web_Services.Models.ReservationModel;
 
 namespace EAD_Web_Services.Services.ReservationService
 {
+    /// <summary>
+    /// Interface for the Reservation Service
+    /// </summary>
     public interface IReservationService
     {
         List<Reservation> Get();
