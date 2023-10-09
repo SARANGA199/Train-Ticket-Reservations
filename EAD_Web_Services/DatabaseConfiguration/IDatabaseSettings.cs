@@ -1,5 +1,15 @@
-﻿namespace EAD_Web_Services.DatabaseConfiguration
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20260460
+//   Name  :  Piumika Saranga H.A.
+
+namespace EAD_Web_Services.DatabaseConfiguration
 {
+    /// <summary>
+    ///  Represents an interface for database settings required to configure a MongoDB database connection.
+    /// </summary>
     public interface IDatabaseSettings
     {
         
