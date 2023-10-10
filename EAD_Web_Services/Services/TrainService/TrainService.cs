@@ -2,8 +2,8 @@
 //   Year  :  4th Year 2nd Semester
 //   Module Code  :  SE4040
 //   Module  :  Enterprise Application Development
-//   Student Id Number  :  IT20260910
-//   Name  :  Vishwa J.W.P
+//   Student Id Number  :  IT20260910 , IT20032838
+//   Name  :  Vishwa J.W.P , Devsrini Savidya A.S.
 
 using EAD_Web_Services.CommonService;
 using EAD_Web_Services.DatabaseConfiguration;
@@ -78,7 +78,7 @@ namespace EAD_Web_Services.Services.TrainService
             List<TrainsResponseBody> filteredTrains = new();
 
             
-            //TODO: check if train is active
+            //check if train is active
             var trains = FilterTrainsByDepartureAndArrival(trainsRequestBody.Departure, trainsRequestBody.Arrival);
 
            

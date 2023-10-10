@@ -2,8 +2,8 @@
 //   Year  :  4th Year 2nd Semester
 //   Module Code  :  SE4040
 //   Module  :  Enterprise Application Development
-//   Student Id Number  :  IT20260460
-//   Name  :  Piumika Saranga H.A.
+//   Student Id Number  :  IT20032838
+//   Name  :  Devsrini Savidya A.S.
 
 namespace EAD_Web_Services.DatabaseConfiguration
 {
