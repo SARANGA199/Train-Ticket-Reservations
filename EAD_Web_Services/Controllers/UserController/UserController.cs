@@ -98,17 +98,22 @@ namespace EAD_Web_Services.Controllers.UserController
         /// <param name="user">The User object with updated information.</param>
         /// <returns>Ok if the user is updated successfully; otherwise, NotFound.</returns>
         [HttpPut("{nic}")]
-        public ActionResult Put(string nic, [FromBody] User user)
+        public ActionResult<UserResponseBody>  Put(string nic, [FromBody] User user)
         {
             var existingUser = userService.Get(nic);
+            UserResponseBody userResponseBody = new();
+
+
 
             if (existingUser == null)
             {
-                return NotFound($"User  not found");
+                userResponseBody.Message = "User not found";
+                return userResponseBody;
             }
 
             userService.Update(nic, user);
-            return Ok("Updated");
+            userResponseBody.Message = "Successfully updated";
+            return userResponseBody;
         }
 
         /// <summary>
@@ -117,11 +122,13 @@ namespace EAD_Web_Services.Controllers.UserController
         /// <param name="nic">The NIC of the user to update.</param>
         /// <returns>Return the result as an HTTP response and the status update result.</returns>
         [HttpPatch("active_deactive/{nic}")]
-        public ActionResult UpdateStatus(string nic)
+        public ActionResult<UserResponseBody> UpdateStatus(string nic)
         {
 
             var result = userService.UpdateStatus(nic);
-            return Ok(result);
+            UserResponseBody userResponseBody = new() { Message = result };
+
+            return userResponseBody;
         }
 
         /// <summary>
@@ -130,18 +137,20 @@ namespace EAD_Web_Services.Controllers.UserController
         /// <param name="nic">The NIC of the user to delete.</param>
         /// <returns>ActionResult indicating the deletion result.</returns>
         [HttpDelete("{nic}")]
-        public ActionResult Delete(string nic)
+        public ActionResult<UserResponseBody> Delete(string nic)
         {
-
+            UserResponseBody userResponseBody = new();
             var user = userService.Get(nic);
 
             if (user == null)
             {
-                return NotFound($"User with Nic = {nic} not found");
+                userResponseBody.Message = "User not found";
+                return userResponseBody;
             }
             userService.Delete(user.Nic);
 
-            return Ok($"User with Nic = {nic} deleted");
+            userResponseBody.Message = "Successfully deleted";
+            return userResponseBody;
         }
         /// <summary>
         /// Authenticate a user by NIC and password.

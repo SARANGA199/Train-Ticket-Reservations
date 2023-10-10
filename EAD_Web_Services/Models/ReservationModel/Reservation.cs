@@ -84,4 +84,11 @@ namespace EAD_Web_Services.Models.ReservationModel
         public string Arrival { get; set; } = string.Empty;
 
     }
+
+    public class ReservationResponseBody
+    {
+        public string Message { get; set; } = string.Empty;
+
+    }
+
 }

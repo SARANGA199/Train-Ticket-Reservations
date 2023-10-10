@@ -74,18 +74,21 @@ namespace EAD_Web_Services.Controllers.ReservationController
         /// <param name="reservationUpdateBody">The ReservationUpdateBody object with updated information.</param>
         /// <returns>ActionResult indicating the update result.</returns>
         [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] ReservationUpdateBody reservationUpdateBody)
+        public ActionResult<ReservationResponseBody> Put(string id, [FromBody] ReservationUpdateBody reservationUpdateBody)
         {
             var reservationToUpdate = reservationService.Get(id);
+            ReservationResponseBody reservationResponseBody = new();
 
             if (reservationToUpdate == null)
             {
-                return NotFound($"Reservation with id = {id} not found "); ;
+                reservationResponseBody.Message = $"Reservation with id = {id} not found ";
+                return reservationResponseBody;
             }
 
             var result = reservationService.Update(id, reservationToUpdate , reservationUpdateBody);
 
-            return Ok(result); 
+            reservationResponseBody.Message = result;
+            return reservationResponseBody; 
         }
 
         /// <summary>
@@ -94,18 +97,21 @@ namespace EAD_Web_Services.Controllers.ReservationController
         /// <param name="id">The ID of the reservation to delete.</param>
         /// <returns>ActionResult indicating the deletion result</returns>
         [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        public ActionResult<ReservationResponseBody> Delete(string id)
         {
             var reservation = reservationService.Get(id);
+            ReservationResponseBody reservationResponseBody = new();
 
             if (reservation == null)
             {
-                return NotFound($"Reservation with id = {id} not found "); ;
+                reservationResponseBody.Message = $"Reservation with id = {id} not found " ;
+                return reservationResponseBody;
             }
 
            var result =   reservationService.Remove(id,reservation.Date);
 
-            return Ok(result);
+            reservationResponseBody.Message = result;
+            return reservationResponseBody;
         }
         
     }
