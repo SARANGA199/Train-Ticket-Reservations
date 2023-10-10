@@ -1,11 +1,20 @@
-﻿using EAD_Web_Services.Models.TrainModel;
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20260910 , IT20032838
+//   Name  :  Vishwa J.W.P , Devsrini Savidya A.S.
+
+using EAD_Web_Services.Models.TrainModel;
 using EAD_Web_Services.Services.TrainService;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace EAD_Web_Services.Controllers.TrainController
 {
+    /// <summary>
+    /// Controller for managing train-related operations.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class TrainController : ControllerBase
@@ -17,7 +26,10 @@ namespace EAD_Web_Services.Controllers.TrainController
             this.trainService = trainService;
         }
 
-        // GET: api/<TrainController>
+        /// <summary>
+        /// Get a list of all trains.
+        /// </summary>
+        /// <returns>A list of Train objects.</returns>
         [HttpGet]
         public ActionResult<List<Train>> Get()
         {
@@ -25,7 +37,11 @@ namespace EAD_Web_Services.Controllers.TrainController
            
         }
 
-        // GET api/<TrainController>/5
+        /// <summary>
+        /// Get a train by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the train to retrieve.</param>
+        /// <returns>The Train object if found; otherwise, returns NotFound.</returns>
         [HttpGet("{id}")]
         public ActionResult<Train> Get(string id)
         {
@@ -40,7 +56,12 @@ namespace EAD_Web_Services.Controllers.TrainController
         }
 
 
-
+        /// <summary>
+        /// Search for trains by departure and arrival locations.
+        /// </summary>
+        /// <param name="trainsRequestBody">The request body containing departure and arrival information.</param>
+        /// <returns>A list of TrainsResponseBody objects matching the search criteria.</returns>
+        /// 
         [HttpPost("search")]
         public ActionResult<List<TrainsResponseBody>> GetByDepartureAndArrival([FromBody] TrainsRequestBody trainsRequestBody)
         {
@@ -55,7 +76,11 @@ namespace EAD_Web_Services.Controllers.TrainController
         }
 
 
-        // POST api/<TrainController>
+        /// <summary>
+        ///create a new train.
+        /// </summary>
+        /// <param name="train">The Train object to create.</param>
+        /// <returns> created Train object.</returns>
         [HttpPost]
         public ActionResult<Train> Post([FromBody] Train train)
         {
@@ -64,7 +89,12 @@ namespace EAD_Web_Services.Controllers.TrainController
             return CreatedAtAction(nameof(Get), new { id = train.Id }, train);
         }
 
-        // PUT api/<TrainController>/5
+        /// <summary>
+        /// Update and existing train by its Id 
+        /// </summary>
+        /// <param name="id">The ID of the train to update</param>
+        /// <param name="train">The Train object with updated information.</param>
+        /// <returns>NoContent if the train is updated successfully; otherwise, NotFound.</returns>
         [HttpPut("{id}")]
         public ActionResult Put(string id, [FromBody] Train train)
         {
@@ -80,7 +110,11 @@ namespace EAD_Web_Services.Controllers.TrainController
             return NoContent();
         }
 
-        // DELETE api/<TrainController>/5
+        /// <summary>
+        /// Delete a train by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the train to delete.</param>
+        /// <returns>return Ok if the train is deleted successfully; otherwise, NotFound.</returns>
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
@@ -96,7 +130,11 @@ namespace EAD_Web_Services.Controllers.TrainController
             return Ok($"Train with Id = {id} deleted");
         }
 
-        //update train status
+        /// <summary>
+        /// Update the active status of a train by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the train to update.</param>
+        /// <returns>ActionResult indicating the status update result.</returns>
         [HttpPatch("updateActiveStatus/{id}")]
         public ActionResult UpdateTrainsActiveStatus(string id)
         {

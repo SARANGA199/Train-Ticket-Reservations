@@ -1,10 +1,20 @@
-﻿using EAD_Web_Services.Models.RequestAgentModel;
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20032838
+//   Name  :  Devsrini Savidya A.S.
+
+using EAD_Web_Services.Models.RequestAgentModel;
 using EAD_Web_Services.Models.ReservationModel;
 using EAD_Web_Services.Services.RequestAgentService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EAD_Web_Services.Controllers.RequestAgentController
 {
+    /// <summary>
+    /// Controller for managing request agent-related operations.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class RequestAgentController : ControllerBase
@@ -16,14 +26,21 @@ namespace EAD_Web_Services.Controllers.RequestAgentController
             this.requestAgentService = requestAgentService;
         }
 
-        // GET: api/<RequestAgentController>
+        /// <summary>
+        ///  Get a list of all request agents.
+        /// </summary>
+        /// <returns>A list of RequestAgent objects.</returns>
         [HttpGet]
         public ActionResult<List<RequestAgent>> Get()
         {
             return requestAgentService.Get();
         }
 
-        // GET api/<RequestAgentController>/5
+        /// <summary>
+        /// Get a request agent by its ID.
+        /// </summary>
+        /// <param name="id">>The ID of the request agent to retrieve.</param>
+        /// <returns>The RequestAgent object if found; otherwise, returns NotFound.</returns>
         [HttpGet("{id}")]
         public ActionResult<RequestAgent> Get(string id)
         {
@@ -38,7 +55,11 @@ namespace EAD_Web_Services.Controllers.RequestAgentController
 
         }
 
-        // POST api/<RequestAgentController>
+        /// <summary>
+        /// Create a new request agent.
+        /// </summary>
+        /// <param name="requestAgent">The RequestAgent object to create.</param>
+        /// <returns>The created RequestAgent object.</returns>
         [HttpPost]
         public ActionResult<Reservation> Post([FromBody] RequestAgent requestAgent)
         {
@@ -47,7 +68,11 @@ namespace EAD_Web_Services.Controllers.RequestAgentController
         }
 
 
-        // DELETE api/<RequestAgentController>/5
+        /// <summary>
+        /// Delete a request agent by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the request agent to delete.</param>
+        /// <returns>method indicating the deletion result.</returns>
         [HttpDelete("{id}")]
         public string Delete(string id)
         {
