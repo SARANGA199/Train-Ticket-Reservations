@@ -1,10 +1,21 @@
-﻿using EAD_Web_Services.Models.UserModel;
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20236014
+//   Name  :  Ravindu Yasith T.K.
+
+using EAD_Web_Services.Models.UserModel;
 using EAD_Web_Services.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace EAD_Web_Services.Controllers.UserController
 {
+    /// <summary>
+    /// Controller for managing user-related operations.
+    /// </summary>
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -16,12 +27,21 @@ namespace EAD_Web_Services.Controllers.UserController
             this.userService = userService;
         }
 
+        /// <summary>
+        /// Get a list of all users.
+        /// </summary>
+        /// <returns>A list of User objects.</returns>
         [HttpGet]
         public ActionResult<List<User>> Get()
         {
             return userService.Get();
         }
 
+        /// <summary>
+        /// Get a user by their NIC number.
+        /// </summary>
+        /// <param name="nic">The NIC number of the user to retrieve.</param>
+        /// <returns>The User object if found; otherwise, returns NotFound.</returns>
         [HttpGet("{nic}")]
         public ActionResult<User> Get(string nic)
         {
@@ -34,7 +54,11 @@ namespace EAD_Web_Services.Controllers.UserController
             return user;
         }
 
-
+        /// <summary>
+        /// Create a new user.
+        /// </summary>
+        /// <param name="user">The User object to create.</param>
+        /// <returns>The created User object.</returns>
         [HttpPost]
         public ActionResult<User> Post([FromBody] User user)
         {
@@ -43,7 +67,12 @@ namespace EAD_Web_Services.Controllers.UserController
             return Ok(result);
         }
 
-
+        /// <summary>
+        /// Update an existing user.
+        /// </summary>
+        /// <param name="nic">The NIC of the user to update.</param>
+        /// <param name="user">The User object with updated information.</param>
+        /// <returns>Ok if the user is updated successfully; otherwise, NotFound.</returns>
         [HttpPut("{nic}")]
         public ActionResult Put(string nic, [FromBody] User user)
         {
@@ -58,6 +87,11 @@ namespace EAD_Web_Services.Controllers.UserController
             return Ok("Updated");
         }
 
+        /// <summary>
+        /// Update user status (active/de-active) by NIC.
+        /// </summary>
+        /// <param name="nic">The NIC of the user to update.</param>
+        /// <returns>Return the result as an HTTP response and the status update result.</returns>
         [HttpPatch("active_deactive/{nic}")]
         public ActionResult UpdateStatus(string nic)
         {
@@ -66,6 +100,11 @@ namespace EAD_Web_Services.Controllers.UserController
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a user by NIC.
+        /// </summary>
+        /// <param name="nic">The NIC of the user to delete.</param>
+        /// <returns>ActionResult indicating the deletion result.</returns>
         [HttpDelete("{nic}")]
         public ActionResult Delete(string nic)
         {
@@ -80,7 +119,11 @@ namespace EAD_Web_Services.Controllers.UserController
 
             return Ok($"User with Nic = {nic} deleted");
         }
-
+        /// <summary>
+        /// Authenticate a user by NIC and password.
+        /// </summary>
+        /// <param name="loginRequest">The login request containing NIC and password.</param>
+        /// <returns>The User object if authenticated; otherwise, returns appropriate error messages.</returns>
         [HttpPost("login")]
         public ActionResult<User> Login([FromBody] LoginRequest loginRequest)
         {

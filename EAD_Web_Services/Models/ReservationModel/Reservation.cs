@@ -1,4 +1,11 @@
-﻿using MongoDB.Bson;
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20260460 , IT20032838
+//   Name  :  Piumika Saranga H.A. , Devsrini Savidya A.S.
+
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 
@@ -6,6 +13,9 @@ namespace EAD_Web_Services.Models.ReservationModel
 {
     public class Reservation
     {
+        /// <summary>
+        /// Represent a reservation document in MongoDB
+        /// </summary>
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = string.Empty;
@@ -54,12 +64,18 @@ namespace EAD_Web_Services.Models.ReservationModel
         
     }
 
+    /// <summary>
+    /// Represents the request body for searching reservations.
+    /// </summary>
     public class ReservationsRequestBody
     {
         public string TrainId { get; set; } = string.Empty;
         public DateTime Date { get; set; } = DateTime.MinValue;
     }
 
+    /// <summary>
+    /// Represents the request body for updating reservations.
+    /// </summary>
     public class ReservationUpdateBody
     {
         public int PassengersCount { get; set; }
