@@ -1,7 +1,11 @@
 ﻿using EAD_Web_Services.Models.UserModel;
 using EAD_Web_Services.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace EAD_Web_Services.Controllers.UserController
 {
@@ -9,10 +13,12 @@ namespace EAD_Web_Services.Controllers.UserController
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
         private readonly IUserService userService;
 
-        public UserController(IUserService userService)
+        public UserController(IConfiguration configuration, IUserService userService)
         {
+            _configuration = configuration;
             this.userService = userService;
         }
 
@@ -34,6 +40,17 @@ namespace EAD_Web_Services.Controllers.UserController
             return user;
         }
 
+        [HttpGet("getbyRole/{role}")]
+        public ActionResult<List<User>> GetbyRole(string role)
+        {
+            List<User> allUsers = userService.GetbyRole(role);
+
+            if (allUsers == null)
+            {
+                return NotFound($"User with {role} not found");
+            }
+            return allUsers;
+        }
 
         [HttpPost]
         public ActionResult<User> Post([FromBody] User user)
@@ -100,7 +117,21 @@ namespace EAD_Web_Services.Controllers.UserController
             if (isPasswordVerified == verifyPasswordHash)
             {
                 user.Password = passwordEncrypted;
-                return user;
+                string token = CreateToken(user);
+
+                var response = new
+                {
+                    nic = user.Nic,
+                    name = user.Name,
+                    email = user.Email,
+                    user_Role = user.UserRole,
+                    isActive = user.IsActive,
+                    created = user.CreatedAt,
+                    updated = user.UpdatedAt,
+                    Token = token
+                };
+
+                return Ok(response);
             }
             else if (isPasswordVerified == verifyPasswordDeactivated)
             {
@@ -113,5 +144,28 @@ namespace EAD_Web_Services.Controllers.UserController
             }
 
         }
+
+        private string CreateToken(User user)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Nic),
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                _configuration.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
+        }
+
     }
 }

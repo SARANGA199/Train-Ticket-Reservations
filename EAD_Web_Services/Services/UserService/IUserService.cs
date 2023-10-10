@@ -11,5 +11,7 @@ namespace EAD_Web_Services.Services.UserService
         void Delete(string nic);
         string Login(string nic, string password);
         string UpdateStatus(string nic);
+        List<User> GetbyRole(string role);
+
     }
 }

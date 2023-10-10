@@ -2,6 +2,7 @@
 using EAD_Web_Services.Models.TrainModel;
 using EAD_Web_Services.Models.UserModel;
 using MongoDB.Driver;
+using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -112,5 +113,10 @@ namespace EAD_Web_Services.Services.UserService
             return stringBuilder.ToString();
         }
 
+        public List<User> GetbyRole(string role)
+        {
+            var filter = Builders<User>.Filter.Eq("UserRole", role);
+            return _users.Find(filter).ToList();
+        }
     }
 }
