@@ -36,11 +36,17 @@ namespace EAD_Web_Services.Controllers.UserController
 
 
         [HttpPost]
-        public ActionResult<User> Post([FromBody] User user)
+        public ActionResult<UserResponseBody> Post([FromBody] User user)
         {
             var result = userService.Create(user);
 
-            return Ok(result);
+            //set result into response object
+            UserResponseBody userResponseBody = new()
+            {
+                Message = result
+            };
+
+            return userResponseBody;
         }
 
 

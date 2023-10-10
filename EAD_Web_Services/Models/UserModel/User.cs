@@ -47,4 +47,11 @@ namespace EAD_Web_Services.Models.UserModel
         public string Password { get; set; } = string.Empty;
     }
 
+    //user response object
+    public class UserResponseBody
+    {
+        public string Message { get; set; } = string.Empty;
+    
+    }
+
 }
