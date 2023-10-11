@@ -1,7 +1,17 @@
-﻿using EAD_Web_Services.Models.TrainModel;
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20260910 , IT20032838
+//   Name  :  Vishwa J.W.P, Devsrini Savidya A.S.
+
+using EAD_Web_Services.Models.TrainModel;
 
 namespace EAD_Web_Services.Services.TrainService
 {
+    /// <summary>
+    /// Interface for the Train service.
+    /// </summary>
     public interface ITrainService
     {
         List<Train> Get();

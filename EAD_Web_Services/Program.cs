@@ -1,6 +1,12 @@
+//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20260460
+//   Name  :  Piumika Saranga H.A.
+
 using EAD_Web_Services.DatabaseConfiguration;
 using EAD_Web_Services.Models.TrainModel;
-using EAD_Web_Services.Services.RequestAgentService;
 using EAD_Web_Services.Services.ReservationService;
 using EAD_Web_Services.Services.TrainService;
 using EAD_Web_Services.Services.UserService;
@@ -26,7 +32,18 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IReservationService, ReservationService>();
 
-builder.Services.AddScoped<IRequestAgentService, RequestAgentService>();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .WithOrigins("http://localhost:3000")  // Allow requests from this origin
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
+
 
 
 builder.Services.AddControllers();
@@ -35,6 +52,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors("CorsPolicy");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -48,5 +67,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("CorsPolicy");
 
 app.Run();
