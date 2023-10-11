@@ -1,8 +1,18 @@
-﻿using MongoDB.Bson;
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20236014
+//   Name  :  Ravindu Yasith T.K.
+
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace EAD_Web_Services.Models.UserModel
 {
+    /// <summary>
+    /// Represent a User Document in MongoDB
+    /// </summary>
     [BsonIgnoreExtraElements]
     public class User
     {
@@ -34,6 +44,9 @@ namespace EAD_Web_Services.Models.UserModel
 
     }
 
+    /// <summary>
+    /// Enumeration of user roles.
+    /// </summary>
     public enum UserRole
     {
         BackOfficeUser = 1,
@@ -41,10 +54,20 @@ namespace EAD_Web_Services.Models.UserModel
         Traveler       = 3
     }
 
+    /// <summary>
+    /// Represents the request body for user login.
+    /// </summary>
     public class LoginRequest
     {
         public string Nic { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+    }
+
+    //user response object
+    public class UserResponseBody
+    {
+        public string Message { get; set; } = string.Empty;
+    
     }
 
 }

@@ -1,4 +1,11 @@
-﻿using EAD_Web_Services.CommonService;
+﻿//   Sri Lanka Institute of Information Technology
+//   Year  :  4th Year 2nd Semester
+//   Module Code  :  SE4040
+//   Module  :  Enterprise Application Development
+//   Student Id Number  :  IT20260910 , IT20032838
+//   Name  :  Vishwa J.W.P , Devsrini Savidya A.S.
+
+
 using EAD_Web_Services.DatabaseConfiguration;
 using EAD_Web_Services.Models.ReservationModel;
 using EAD_Web_Services.Models.TrainModel;
@@ -8,12 +15,19 @@ using System.Linq.Expressions;
 
 namespace EAD_Web_Services.Services.TrainService
 {
+    /// <summary>
+    /// Service class for managing Train objects.
+    /// </summary>
     public class TrainService : ITrainService
     {
         private readonly IMongoCollection<Train> _trains;
         private readonly IMongoCollection<Reservation> _reservation;
-       
 
+        /// <summary>
+        /// Initializes a new instance of the TrainService class.
+        /// </summary>
+        /// <param name="settings">The database settings.</param>
+        /// <param name="mongoClient">The MongoDB client.</param>
         public TrainService(IDatabaseSettings settings , IMongoClient mongoClient )
         {
             var database = mongoClient.GetDatabase(settings.DatabaseName);
@@ -22,6 +36,11 @@ namespace EAD_Web_Services.Services.TrainService
 
         }
 
+        /// <summary>
+        /// Create a new train.
+        /// </summary>
+        /// <param name="train">The Train object to create.</param>
+        /// <returns>The created Train object.</returns>
         public Train Create(Train train)
         {
 
@@ -29,25 +48,37 @@ namespace EAD_Web_Services.Services.TrainService
             return train;
         }
 
+        /// <summary>
+        /// Get a list of all trains.
+        /// </summary>
+        /// <returns>A list of Train objects.</returns>
         public List<Train> Get()
         {
             return _trains.Find(train => true).ToList();
         }
 
-
+        /// <summary>
+        /// Get a train by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the train to retrieve.</param>
+        /// <returns>The Train object if found; otherwise, returns null.</returns>
         public Train Get(string id)
         {
             return _trains.Find(train => train.Id == id).FirstOrDefault();
         }
 
 
-
+        /// <summary>
+        /// Get a list of trains filtered by departure and arrival stations.
+        /// </summary>
+        /// <param name="trainsRequestBody">The request body containing departure and arrival stations.</param>
+        /// <returns>A list of filtered Train objects.</returns>
         public List<TrainsResponseBody> GetByDepartureAndArrival(TrainsRequestBody trainsRequestBody)
         {
             List<TrainsResponseBody> filteredTrains = new();
 
             
-            //TODO: check if train is active
+            //check if train is active
             var trains = FilterTrainsByDepartureAndArrival(trainsRequestBody.Departure, trainsRequestBody.Arrival);
 
            
@@ -124,6 +155,12 @@ namespace EAD_Web_Services.Services.TrainService
             return availableSeats;
         }
 
+        /// <summary>
+        /// Get reservations for a train on a specific date.
+        /// </summary>
+        /// <param name="trainId">The ID of the train.</param>
+        /// <param name="date">The date of the journey.</param>
+        /// <returns>A list of Reservation objects.</returns>
         public List<Reservation> GetTrainByIdDate(string trainId, DateTime date)
         {
 
@@ -161,16 +198,30 @@ namespace EAD_Web_Services.Services.TrainService
             return filteredTrains;
         }
 
+        /// <summary>
+        /// Remove a train by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the train to remove.</param>
         public void Remove(string id)
         {
             _trains.DeleteOne(train => train.Id == id);
         }
 
+        /// <summary>
+        /// Update a train.
+        /// </summary>
+        /// <param name="id">The ID of the train to update.</param>
+        /// <param name="train">The Train object with updated information.</param>
         public void Update(string id, Train train)
         {
             _trains.ReplaceOne(train => train.Id == id, train);
         }
 
+        /// <summary>
+        /// Update the active status of a train.
+        /// </summary>
+        /// <param name="id">The ID of the train to update.</param>
+        /// <returns>A message indicating the update result.</returns>
         public string UpdateTrainsActiveStatus(string id)
         {
             var train = _trains.Find(train => train.Id == id).FirstOrDefault();
