@@ -69,6 +69,16 @@ namespace EAD_Web_Services.Services.ReservationService
         }
 
         /// <summary>
+        /// Get a reservations by user nic.
+        /// </summary>
+        /// <param name="nic">The NIC of the user use to fetch reservations.</param>
+        /// <returns>The Reservations list if found; otherwise, returns null.</returns>
+        public List<Reservation> GetByNic(string nic)
+        {
+            return _reservation.Find(reservation => reservation.Nic == nic).ToList();
+        }
+
+        /// <summary>
         /// Get a reservation by train ID and date.
         /// </summary>
         /// <param name="trainId">The train ID</param>

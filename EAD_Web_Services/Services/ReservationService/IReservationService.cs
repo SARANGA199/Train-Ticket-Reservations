@@ -16,11 +16,13 @@ namespace EAD_Web_Services.Services.ReservationService
     {
         List<Reservation> Get();
         Reservation Get(string id);
-        //get by train id and date
+        //get by nic
+        List<Reservation> GetByNic(string nic);
         List<Reservation> GetByTrainIdAndDate(string trainId, DateTime date);
         Reservation Create(Reservation reservation);
         string Update(string id, Reservation reservation , ReservationUpdateBody reservationUpdateBody);
         string Remove(string id,DateTime date);
+
 
     }
 }

@@ -54,6 +54,19 @@ namespace EAD_Web_Services.Controllers.ReservationController
             return reservation;
         }
 
+        //get reservations by nic
+        [HttpGet("nic/{nic}")]
+        public ActionResult<List<Reservation>> GetByNic(string nic)
+        {
+            var reservations = reservationService.GetByNic(nic);
+
+            if (reservations == null)
+            {
+                return NotFound($"Reservation with nic = {nic} not found "); ;
+            }
+            return reservations;
+        }
+
         /// <summary>
         /// Create a new reservation.
         /// </summary>

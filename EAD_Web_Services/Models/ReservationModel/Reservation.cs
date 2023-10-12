@@ -85,6 +85,9 @@ namespace EAD_Web_Services.Models.ReservationModel
 
     }
 
+    /// <summary>
+    /// Gets or sets a message providing information about the result of the operation.
+    /// </summary>
     public class ReservationResponseBody
     {
         public string Message { get; set; } = string.Empty;
