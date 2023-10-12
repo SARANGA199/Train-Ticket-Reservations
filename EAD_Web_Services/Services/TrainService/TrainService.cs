@@ -71,7 +71,7 @@ namespace EAD_Web_Services.Services.TrainService
         /// <summary>
         /// Get a list of trains filtered by departure and arrival stations.
         /// </summary>
-        /// <param name="trainsRequestBody">The request body containing departure and arrival stations.</param>
+        /// <param name="trainsRequestBody">The request body containing departure , arrival stations , current data and number of seats.</param>
         /// <returns>A list of filtered Train objects.</returns>
         public List<TrainsResponseBody> GetByDepartureAndArrival(TrainsRequestBody trainsRequestBody)
         {
@@ -101,7 +101,14 @@ namespace EAD_Web_Services.Services.TrainService
 
                     //calculate price
                     var price = CalculatePrice(train, trainsRequestBody.Departure, trainsRequestBody.Arrival, departureStation, arrivalStation);
-  
+
+
+                     //convert departure time to time only and set AM/PM from local time
+                     var dep_time = departureStation?.Time.ToString("hh:mm tt");
+
+                    //convert arrival time to time only and set AM/PM from local time
+                    var arrival_time = arrivalStation?.Time.ToString("hh:mm tt");
+             
                     //add train to filtered trains
                     filteredTrains.Add(new TrainsResponseBody
                     {
@@ -109,11 +116,12 @@ namespace EAD_Web_Services.Services.TrainService
                         TrainName = train.TrainName,
                         Departure = trainsRequestBody.Departure,
                         Arrival = trainsRequestBody.Arrival,
-                        DepartureTime = departureStation?.Time ?? DateTime.MinValue,
-                        ArrivalTime = arrivalStation?.Time ?? DateTime.MinValue,
+                        DepartureTime = dep_time,
+                        ArrivalTime = arrival_time,
                         TripTimeDuration = (arrivalStation?.Time - departureStation?.Time)?.TotalHours ?? 0,
                         AvailableSeatCount = availableSeats,
                         RequestedSeatCount = trainsRequestBody.SeatCount,
+                        Date = trainsRequestBody.Date,
                         Amount = price
                         
                     });
