@@ -69,6 +69,16 @@ namespace EAD_Web_Services.Services.ReservationService
         }
 
         /// <summary>
+        /// Get a reservations by user nic.
+        /// </summary>
+        /// <param name="nic">The NIC of the user use to fetch reservations.</param>
+        /// <returns>The Reservations list if found; otherwise, returns null.</returns>
+        public List<Reservation> GetByNic(string nic)
+        {
+            return _reservation.Find(reservation => reservation.Nic == nic).ToList();
+        }
+
+        /// <summary>
         /// Get a reservation by train ID and date.
         /// </summary>
         /// <param name="trainId">The train ID</param>
@@ -148,6 +158,9 @@ namespace EAD_Web_Services.Services.ReservationService
 
                     //check these stations are available in the train
                     if (departureStation != null && arrivalStation != null)
+
+                        //connvert the departure time to local time
+                        //var dep_time = departureStation?.Time.ToString("hh:mm tt");
                     {
                         //calculate the price
                         var price = trainService.CalculatePrice(train, reservationUpdateBody.Depature, reservationUpdateBody.Arrival, departureStation, arrivalStation);
@@ -157,6 +170,11 @@ namespace EAD_Web_Services.Services.ReservationService
                         reservation.Date = reservationUpdateBody.Date;
                         reservation.Depature = reservationUpdateBody.Depature;
                         reservation.Arrival = reservationUpdateBody.Arrival;
+                        reservation.DepatureTime = departureStation?.Time.ToString("hh:mm tt");
+                        reservation.ArrivalTime = arrivalStation?.Time.ToString("hh:mm tt");
+                        reservation.AverageTimeDuration = arrivalStation?.Time.Subtract(departureStation.Time).ToString();
+                        reservation.TotalAmount = price * reservationUpdateBody.PassengersCount;
+                        reservation.UpdatedAt = DateTime.Now;
 
                         _reservation.ReplaceOne(reservation => reservation.Id == id, reservation);
 

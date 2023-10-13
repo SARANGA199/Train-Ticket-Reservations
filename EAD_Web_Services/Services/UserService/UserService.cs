@@ -173,6 +173,11 @@ namespace EAD_Web_Services.Services.UserService
             return stringBuilder.ToString();
         }
 
+        /// <summary>
+        /// Retrieves a list of users based on their user role
+        /// </summary>
+        /// <param name="role">The user role to filter by.</param>
+        /// <returns></returns>
         public List<User> GetbyRole(string role)
         {
             var filter = Builders<User>.Filter.Eq("UserRole", role);

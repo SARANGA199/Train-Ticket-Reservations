@@ -117,12 +117,10 @@ namespace EAD_Web_Services.Models.TrainModel
         public string Arrival { get; set; } = string.Empty;
 
         [BsonElement("departure_time")]
-        [BsonRepresentation(BsonType.DateTime)]
-        public DateTime DepartureTime { get; set; } = DateTime.MinValue;
+        public string DepartureTime { get; set; } = string.Empty;
 
         [BsonElement("arrival_time")]
-        [BsonRepresentation(BsonType.DateTime)]
-        public DateTime ArrivalTime { get; set; } = DateTime.MinValue;
+        public string ArrivalTime { get; set; } = string.Empty;
 
         //trip time in hours
         [BsonElement("trip_time_duration")]
@@ -133,6 +131,10 @@ namespace EAD_Web_Services.Models.TrainModel
 
         [BsonElement("available_seat_count")]
         public int AvailableSeatCount { get; set; }
+
+        [BsonElement("date")]
+        [BsonRepresentation(BsonType.DateTime)]
+        public DateTime Date { get; set; } = DateTime.MinValue;
 
         [BsonElement("amount")]
         public double Amount { get; set; } = 2500;

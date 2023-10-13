@@ -71,7 +71,7 @@ namespace EAD_Web_Services.Services.TrainService
         /// <summary>
         /// Get a list of trains filtered by departure and arrival stations.
         /// </summary>
-        /// <param name="trainsRequestBody">The request body containing departure and arrival stations.</param>
+        /// <param name="trainsRequestBody">The request body containing departure , arrival stations , current data and number of seats.</param>
         /// <returns>A list of filtered Train objects.</returns>
         public List<TrainsResponseBody> GetByDepartureAndArrival(TrainsRequestBody trainsRequestBody)
         {
@@ -101,7 +101,14 @@ namespace EAD_Web_Services.Services.TrainService
 
                     //calculate price
                     var price = CalculatePrice(train, trainsRequestBody.Departure, trainsRequestBody.Arrival, departureStation, arrivalStation);
-  
+
+
+                     //convert departure time to time only and set AM/PM from local time
+                     var dep_time = departureStation?.Time.ToString("hh:mm tt");
+
+                    //convert arrival time to time only and set AM/PM from local time
+                    var arrival_time = arrivalStation?.Time.ToString("hh:mm tt");
+             
                     //add train to filtered trains
                     filteredTrains.Add(new TrainsResponseBody
                     {
@@ -109,11 +116,12 @@ namespace EAD_Web_Services.Services.TrainService
                         TrainName = train.TrainName,
                         Departure = trainsRequestBody.Departure,
                         Arrival = trainsRequestBody.Arrival,
-                        DepartureTime = departureStation?.Time ?? DateTime.MinValue,
-                        ArrivalTime = arrivalStation?.Time ?? DateTime.MinValue,
+                        DepartureTime = dep_time,
+                        ArrivalTime = arrival_time,
                         TripTimeDuration = (arrivalStation?.Time - departureStation?.Time)?.TotalHours ?? 0,
                         AvailableSeatCount = availableSeats,
                         RequestedSeatCount = trainsRequestBody.SeatCount,
+                        Date = trainsRequestBody.Date,
                         Amount = price
                         
                     });
@@ -125,7 +133,15 @@ namespace EAD_Web_Services.Services.TrainService
             return filteredTrains;
         }
 
-        //calculate price
+        /// <summary>
+        /// Calculate price for a train journey.
+        /// </summary>
+        /// <param name="train"></param>
+        /// <param name="departure"></param>
+        /// <param name="arrival"></param>
+        /// <param name="departureStation"></param>
+        /// <param name="arrivalStation"></param>
+        /// <returns></returns>
         public double CalculatePrice(Train train, string departure, string arrival, Station departureStation, Station arrivalStation)
         {
 
@@ -139,7 +155,13 @@ namespace EAD_Web_Services.Services.TrainService
             return price;
         }
 
-        //get available seats
+        /// <summary>
+        /// Get the number of available seats for a train on a specific date.
+        /// </summary>
+        /// <param name="trainId">The ID of the train</param>
+        /// <param name="date">The date of the journey.</param>
+        /// <param name="seatCount">Count of the seats</param>
+        /// <returns></returns>
         public int GetAvailableSeats(string trainId, DateTime date, int seatCount)
         {
 
@@ -180,7 +202,12 @@ namespace EAD_Web_Services.Services.TrainService
             return filteredReservations;
         }
 
-
+        /// <summary>
+        /// Filter trains by departure and arrival stations.
+        /// </summary>
+        /// <param name="departure"></param>
+        /// <param name="arrival"></param>
+        /// <returns></returns>
         private List<Train> FilterTrainsByDepartureAndArrival(string departure, string arrival)
         {
             // Create a combined filter expression.
@@ -244,6 +271,12 @@ namespace EAD_Web_Services.Services.TrainService
             }
         }
 
+        /// <summary>
+        /// Get future reservations for a train with a specific date.
+        /// </summary>
+        /// <param name="trainId"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public List<Reservation> CheckFutureReservation(string trainId, DateTime date)
         {
             // Create a combined filter expression.

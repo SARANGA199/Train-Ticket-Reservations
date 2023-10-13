@@ -63,7 +63,9 @@ namespace EAD_Web_Services.Models.UserModel
         public string Password { get; set; } = string.Empty;
     }
 
-    //user response object
+    /// <summary>
+    /// Gets or sets a message providing information about the result of the operation.
+    /// </summary>
     public class UserResponseBody
     {
         public string Message { get; set; } = string.Empty;
