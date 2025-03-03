@@ -3,8 +3,7 @@
 ## 📌 Overview  
 The **Train Ticket Reservation System** is a backend application built using **C#** and **ASP.NET Core** that facilitates online train ticket bookings. It provides a robust API for users to search trains, book tickets, manage reservations, and process payments.  
 
-## ✨ Features  
-- ✅ **User Authentication & Authorization** (JWT-based)  
+## ✨ Features    
 - ✅ **Train Schedule Management**  
 - ✅ **Seat Availability & Booking**  
 - ✅ **Ticket Generation & Cancellation**  
@@ -15,6 +14,6 @@ The **Train Ticket Reservation System** is a backend application built using **C
 ## 🛠️ Tech Stack  
 - **Language:** C#  
 - **Framework:** ASP.NET Core  
-- **Database:** SQL Server  
+- **Database:** MongoDB
 - **Authentication:** JWT  
 - **API Documentation:** Swagger 
